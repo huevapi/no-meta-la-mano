@@ -215,8 +215,10 @@ $(function(){
 	
 	
 	// Player space shipannimations:
-	playerAnimation["idle"]		= new $.gameQuery.Animation({imageURL: "player_spaceship.png"});
-	playerAnimation["explode"]	= new $.gameQuery.Animation({imageURL: "player_explode.png", numberOfFrame: 4, delta: 26, rate: 60, type: $.gameQuery.ANIMATION_VERTICAL});
+	playerAnimation["idle"]		= new $.gameQuery.Animation({imageURL: "bus.png"});
+
+
+	playerAnimation["explode"]	= new $.gameQuery.Animation({imageURL: "bug.png", numberOfFrame: 1, delta: 26, rate: 60, type: $.gameQuery.ANIMATION_VERTICAL});
 	playerAnimation["up"]		= new $.gameQuery.Animation({imageURL: "boosterup.png", numberOfFrame: 6, delta: 14, rate: 60, type: $.gameQuery.ANIMATION_HORIZONTAL});
 	playerAnimation["down"]		= new $.gameQuery.Animation({imageURL: "boosterdown.png", numberOfFrame: 6, delta: 14, rate: 60, type: $.gameQuery.ANIMATION_HORIZONTAL});
 	playerAnimation["boost"]	= new $.gameQuery.Animation({imageURL: "booster1.png" , numberOfFrame: 6, delta: 14, rate: 60, type: $.gameQuery.ANIMATION_VERTICAL});
@@ -225,12 +227,12 @@ $(function(){
 	//  List of enemies animations :
 	// 1st kind of enemy:
 	enemies[0] = new Array(); // enemies have two animations
-	enemies[0]["idle"]	= new $.gameQuery.Animation({imageURL: "minion_idle.png", numberOfFrame: 5, delta: 52, rate: 60, type: $.gameQuery.ANIMATION_VERTICAL});
+	enemies[0]["idle"]	= new $.gameQuery.Animation({imageURL: "dogs.png", numberOfFrame: 5, delta: 52, rate: 60, type: $.gameQuery.ANIMATION_VERTICAL});
 	enemies[0]["explode"]	= new $.gameQuery.Animation({imageURL: "minion_explode.png", numberOfFrame: 11, delta: 52, rate: 30, type: $.gameQuery.ANIMATION_VERTICAL | $.gameQuery.ANIMATION_CALLBACK});
 	
 	// 2nd kind of enemy:
 	enemies[1] = new Array();
-	enemies[1]["idle"]	= new $.gameQuery.Animation({imageURL: "brainy_idle.png", numberOfFrame: 8, delta: 42, rate: 60, type: $.gameQuery.ANIMATION_VERTICAL});
+	enemies[1]["idle"]	= new $.gameQuery.Animation({imageURL: "dogs.png", numberOfFrame: 8, delta: 42, rate: 60, type: $.gameQuery.ANIMATION_VERTICAL});
 	enemies[1]["explode"]	= new $.gameQuery.Animation({imageURL: "brainy_explode.png", numberOfFrame: 8, delta: 42, rate: 60, type: $.gameQuery.ANIMATION_VERTICAL | $.gameQuery.ANIMATION_CALLBACK});
 	
 	// 3rd kind of enemy:
@@ -257,9 +259,9 @@ $(function(){
 						.addSprite("background6", {animation: background6, width: PLAYGROUND_WIDTH, height: PLAYGROUND_HEIGHT, posx: PLAYGROUND_WIDTH})
 					.end()
 					.addGroup("actors", {width: PLAYGROUND_WIDTH, height: PLAYGROUND_HEIGHT})
-						.addGroup("player", {posx: PLAYGROUND_WIDTH/2, posy: PLAYGROUND_HEIGHT/2, width: 100, height: 26})
+						.addGroup("player", {posx: PLAYGROUND_WIDTH/2, posy: PLAYGROUND_HEIGHT/2, width: 416, height: 94})
 							.addSprite("playerBoostUp", {posx:37, posy: 15, width: 14, height: 18})
-							.addSprite("playerBody",{animation: playerAnimation["idle"], posx: 0, posy: 0, width: 100, height: 26})
+							.addSprite("playerBody",{animation: playerAnimation["idle"], posx: 0, posy: 0, width: 416, height: 94})
 							.addSprite("playerBooster", {animation:playerAnimation["boost"], posx:-32, posy: 5, width: 36, height: 14})
 							.addSprite("playerBoostDown", {posx:37, posy: -7, width: 14, height: 18})
 						.end()
