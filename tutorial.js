@@ -15,6 +15,7 @@ var bigStarSpeed		= 4 //pixels per frame
 var playerAnimation = new Array();
 var missile = new Array();
 var enemies = new Array(3); // There are three kind of enemies in the game
+var personasAnimation = new Array();
 
 // Game state
 var bossMode = false;
@@ -22,6 +23,10 @@ var bossName = null;
 var playerHit = false;
 var timeOfRespawn = 0;
 var gameOver = false;
+
+
+var contador = 0;
+var contadorY = 0;
 
 // Some hellper functions : 
 
@@ -38,6 +43,26 @@ function explodePlayer(playerNode){
 
 
 // Game objects:
+function Persona(node, contador){
+
+	this.node = node;
+	this.contador = contador;
+	
+	this.update = function(playerNode){
+		this.updateX(playerNode);
+		this.updateY(playerNode);
+	};	
+	this.updateX = function(playerNode){
+		var newpos = $(playerNode)[0].gameQuery.posx + contador*12;
+		this.node.css("left",""+newpos+"px");
+	};
+	this.updateY= function(playerNode){
+		var newpos = $(playerNode)[0].gameQuery.posy + contadorY*12;
+		this.node.css("top",""+newpos+"px");
+	};
+	//this.animations = animations;	
+}
+
 function Player(node){
 
 	this.node = node;
@@ -47,6 +72,8 @@ function Player(node){
 	this.replay = 3; 
 	this.shield = 3; 
 	this.respawnTime = -1;
+	
+	this.personas = new Array();
 	
 	// This function damage the ship and return true if this cause the ship to die 
 	this.damage = function(){
@@ -81,6 +108,14 @@ function Player(node){
 			$(this.node).fadeTo(500, 1); 
 			this.respawnTime = -1;
 		}
+	}
+	
+	this.agregarPersona = function(persona){
+		this.personas.push(persona);
+	}
+	
+	this.removerPersona = function(persona){
+		this.personas.pop();
 	}
 	
 	return true;
@@ -174,6 +209,10 @@ $(function(){
 	var background5 = new $.gameQuery.Animation({imageURL: "background5.png"});
 	var background6 = new $.gameQuery.Animation({imageURL: "background6.png"});
  
+	
+	personasAnimation["idle"]		= new $.gameQuery.Animation({imageURL: "bip.png"});
+	personasAnimation["evasor"]		= new $.gameQuery.Animation({imageURL: "evasor.png"});
+	
 	
 	// Player space shipannimations:
 	playerAnimation["idle"]		= new $.gameQuery.Animation({imageURL: "player_spaceship.png"});
@@ -300,6 +339,11 @@ $(function(){
 				}
 			}
 			
+			//Update personas
+			$(".persona").each(function(){
+					this.persona.update($("#player"));
+			});
+			
 			//Update the movement of the enemies
 			$(".enemy").each(function(){
 					this.enemy.update($("#player"));
@@ -328,7 +372,7 @@ $(function(){
 						}
 					}
 					//Make the enemy fire
-					if(this.enemy instanceof Brainy){
+					/*if(this.enemy instanceof Brainy){
 						if(Math.random() < 0.05){
 							var enemyposx = parseInt($(this).css("left"));
 							var enemyposy = parseInt($(this).css("top"));
@@ -336,7 +380,7 @@ $(function(){
 							$("#enemiesMissileLayer").addSprite(name,{animation: missile["enemies"], posx: enemyposx, posy: enemyposy + 20, width: 30,height: 15});
 							$("#"+name).addClass("enemiesMissiles");
 						}
-					}
+					}*/
 				});
 			
 			//Update the movement of the missiles
@@ -417,6 +461,17 @@ $(function(){
 				$("#"+bossName).addClass("enemy");
 				$("#"+bossName)[0].enemy = new Bossy($("#"+bossName));
 			}
+			//Generacion de personas
+			var randomPersonas = Math.random();
+			var name = "persona_"+"_"+contador +"_"+ contadorY;
+			if(randomPersonas < 0.7)
+				$("#actors").addSprite(name, {animation: personasAnimation["idle"], posx: 0 , posy: 0,width: 10, height: 10});
+			else 
+				$("#actors").addSprite(name, {animation: personasAnimation["evasor"], posx: 0 , posy: 0,width: 10, height: 10});				
+			$("#"+name).addClass("persona");
+			$("#"+name)[0].persona = new Persona($("#"+name), contador);
+			contador++;
+			
 		} else {
 			if($("#"+bossName).length == 0){
 				bossMode = false;
